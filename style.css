@@ -1,0 +1,132 @@
+body{
+    background-image: url('assets/back.png');
+}
+
+/* Layout */
+.container-center-fixed {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    position: fixed;
+    top:0;
+    bottom: 0;
+}
+
+.container-center {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.container-image-selection{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.aside-actions {
+  display: flex;
+  flex-direction: column;
+}
+
+.card-actions{
+  display: flex;
+  justify-content: space-between;
+  padding-top: 1em;
+}
+
+.mb-10{
+    margin-bottom: 1em;
+}
+
+/* Tipografia */
+.black-title {
+  font-family: "Roboto", sans-serif;
+  font-size: 60;
+  font-weight: 900;
+  line-height: 70px;
+  color: #000;
+  text-align: center;
+}
+
+.regular-title {
+  font-family: "Roboto", sans-serif;
+  font-size: 40;
+  font-weight: 400;
+  line-height: 47px;
+  color: #000;
+  text-align: center;
+}
+
+.black-font{
+  font-family: "Roboto", sans-serif;
+  font-size: 60px;
+  font-weight: 900;
+  line-height: 47px;
+  text-transform: uppercase;
+  color: #fff;
+}
+
+/* Botões */
+.btn-leaf {
+  width: 15em;
+  border: none;
+  border-radius: 50px;
+  background: #6ebe43;
+  font-size: 17px;
+  font-family: "Roboto", sans-serif;;
+  font-weight: 400;
+  text-transform: uppercase;
+  line-height: 50px;
+  padding: 15px;
+  margin-bottom: 10px;
+}
+
+.btn-leaf:hover {
+  background-color: #27ae60;
+}
+
+.btn-leaf:focus {
+  outline: 2px solid rgba(0, 0, 0, 0.1);
+  outline-offset: 2px;
+}
+
+.btn-leaf:focus-visible {
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+
+.btn-snow {
+  width: 15em;
+  border: 1px solid black;
+  border-radius: 50px;
+  background: #fff;
+  font-size: 17px;
+  font-family: "Roboto", sans-serif;;
+  font-weight: 400;
+  text-transform: uppercase;
+  line-height: 50px;
+  padding: 15px;
+  margin-bottom: 10px;
+}
+
+.btn-snow:hover {
+  background-color: #ecf0f1;
+}
+
+.btn-snow:focus {
+  outline: 2px solid rgba(0, 0, 0, 0.1);
+  outline-offset: 2px;
+}
+
+.btn-snow:focus-visible {
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+
+.image-nema{
+  width: 586px;
+  height: 403px;
+}
