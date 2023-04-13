@@ -1,5 +1,6 @@
 body{
-    background-image: url('assets/back.png');
+    background-image: url('../../public/assets/back.png');
+    background-color: #D9D9D9;
 }
 
 /* Layout */
@@ -18,12 +19,12 @@ body{
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
+  align-items: space-around;
 }
 
 .container-image-selection{
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+  display: flex;
+  justify-content: space-around;
 }
 
 .aside-actions {
@@ -44,7 +45,7 @@ body{
 /* Tipografia */
 .black-title {
   font-family: "Roboto", sans-serif;
-  font-size: 60;
+  font-size: 1em;
   font-weight: 900;
   line-height: 70px;
   color: #000;
@@ -71,16 +72,16 @@ body{
 
 /* Botões */
 .btn-leaf {
-  width: 15em;
   border: none;
   border-radius: 50px;
   background: #6ebe43;
-  font-size: 17px;
+  font-size: 14px;
   font-family: "Roboto", sans-serif;;
   font-weight: 400;
   text-transform: uppercase;
   line-height: 50px;
-  padding: 15px;
+  padding-left: 1.5em;
+  padding-right: 1.5em;
   margin-bottom: 10px;
 }
 
@@ -99,7 +100,6 @@ body{
 }
 
 .btn-snow {
-  width: 15em;
   border: 1px solid black;
   border-radius: 50px;
   background: #fff;
@@ -108,7 +108,8 @@ body{
   font-weight: 400;
   text-transform: uppercase;
   line-height: 50px;
-  padding: 15px;
+  padding-left: 1.5em;
+  padding-right: 1.5em;
   margin-bottom: 10px;
 }
 
