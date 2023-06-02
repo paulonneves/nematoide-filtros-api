@@ -3,7 +3,18 @@ import cv2
 from skimage.filters import roberts, sobel, scharr, prewitt
 
 
-accepted_filters = ['blur', 'canny', 'blur_canny', 'lighten', 'sobel', 'prewitt', 'roberts', 'scharr']
+accepted_filters = ['blur', 'canny', 'blur_canny',
+                    'lighten', 'sobel', 'prewitt', 'roberts', 'scharr']
+
+
+def preprocessing(image):
+    """
+    :param image: Objeto imagem cv2.
+    :return: Imagem com todos os filtros do processamento aplicados.
+    """
+    gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+    blur = cv2.blur(gray, (5, 10))
+    return blur
 
 
 def accepted_image_filters(filtername: str) -> bool:
@@ -42,6 +53,7 @@ def transform_imagefilter(contents: bytes, filtername: str, **kwargs):
                    'lighten': lighten, 'blur': blur, 'canny': canny, "blur_canny": blur_canny}
     image_arr = np.frombuffer(contents, dtype=np.uint8)
     image = cv2.imdecode(image_arr, cv2.IMREAD_GRAYSCALE)
+    # image = preprocessing(image=image)
     t_image = ski_filters[filtername](image)
     image_obj = ski_filters[filtername](image, **kwargs)
     return image_obj

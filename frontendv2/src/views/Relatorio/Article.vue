@@ -1,96 +1,76 @@
 <template>
-  <div class="home">
+  <div class="home pa-10">
     <v-card elevation="0" width="50%" class="pa-10">
+      <image-manager></image-manager>
+
       <v-card-title>Relatório de Análise</v-card-title>
+
       <v-row align="center">
         <v-col cols="12" md="12">
-          <v-text-field
-            v-model="form.save.author"
-            counter="25"
-            filled
-            hint="This field uses counter prop"
-            label="Quem está analisando as imagens?"
-          ></v-text-field>
+          <v-text-field v-model="form.save.author" counter="25" filled hint="Deve ser informado o autor da análise"
+            label="Quem está analisando as imagens?"></v-text-field>
         </v-col>
 
         <v-col cols="12" md="12">
-          <v-select
-            v-model="form.save.rating"
-            :items="form.default.rating"
-            hint="This field uses counter prop"
-            label="Resultado da imagem processada"
-            filled
-          >
+          <v-select v-model="form.save.rating" :items="form.default.rating"
+            hint="Deve ser informado a qualidade do resultado do processamento" label="Resultado da imagem processada"
+            filled>
           </v-select>
         </v-col>
 
         <v-col cols="12" md="12">
-          <v-slider
-            v-model="form.save.amount"
-            color="#6EBE43"
-            label="Quantos nematoides há na imagem?"
-            hint="Be honest"
-            min="1"
-            max="100"
-            thumb-label
-          ></v-slider>
+          <v-text-field solo v-model.number="sendAmoumt" color="#6EBE43" label="Quantos nematoides há na imagem?"
+            hint="Infome a quantidade identificável de nematoides" min="1" max="100" type="number"
+            prepend-inner-icon="mdi-plus-box" append-icon="mdi-minus-box" @click:prepend-inner="increment"
+            @click:append="decrement">
+          </v-text-field>
         </v-col>
 
         <v-col cols="12" md="12">
-          <v-select
-            v-model="form.save.gender"
-            :items="form.default.gender"
-            hint="This field uses counter prop"
-            label="Gêneros"
-            filled
-          >
+          <v-select v-model="form.save.gender" :items="form.default.gender"
+            hint="Deve ser informado a taxonomia presente na amostra" label="Gêneros" filled>
           </v-select>
         </v-col>
         <v-col cols="12" md="12">
-            <v-card-text>{{ form.save }}</v-card-text>
+          <v-card-text>Item: {{ form.save }}</v-card-text>
+          <v-card-text>Lista de valores: {{ formList }}</v-card-text>
         </v-col>
       </v-row>
-      <v-card-actions><v-btn block dark color="#6EBE43" @click="generateReport">Generate PDF</v-btn></v-card-actions>
+      <v-row>
+        <v-btn dark block color="#2c3e50" class="mb-2" @click="addFormList"><v-icon>mdi-plus</v-icon> Adicionar</v-btn>
+        <v-btn dark block color="#e74c3c" class="mb-2"><v-icon>mdi-delete-variant</v-icon> Limpar</v-btn>
+        <v-btn dark block color="#6EBE43" @click="downloadCSV"><v-icon>mdi-google-spreadsheet</v-icon> Baixar CSV
+        </v-btn>
+        <v-snackbar v-model="snackForm" timeout="2000">
+          {{ snackFormText }}
+
+          <template v-slot:action="{ attrs }">
+            <v-btn color="pink" text v-bind="attrs" @click="snackForm = false">
+              Close
+            </v-btn>
+          </template>
+        </v-snackbar>
+      </v-row>
     </v-card>
-    <div>
-     <VueHtml2pdf
-        :show-layout="false"
-        :float-layout="true"
-        :enable-download="true"
-        :preview-modal="true"
-        :paginate-elements-by-height="1400"
-        filename="myPDF"
-        :pdf-quality="2"
-        :manual-pagination="false"
-        pdf-format="a4"
-        pdf-orientation="landscape"
-        pdf-content-width="800px"
-        ref="html2Pdf"
-    >
-        <section slot="pdf-content">
-            <v-card elevation="0" class="pa-10">
-                <v-card-title>Relatório de Análise</v-card-title>
-                <v-card-text>O presente autor dessa análise identificou que o filtro selecionado apresentou performance {{form.save.rating}},
-                    Sendo possível identificar {{form.save.amount}} nematoides.</v-card-text>
-                <v-card-text>Foi percebido, também, o gênero {{ form.save.gender }}.</v-card-text>
-                <v-card-text>Assinado: {{form.save.author}}</v-card-text>
-            </v-card>
-        </section>
-    </VueHtml2pdf>
-   </div>
+
   </div>
 </template>
 
 <script>
-import VueHtml2pdf from 'vue-html2pdf'
+import ImageManager from '@/views/Image/ImageManager.vue';
+import { saveAs } from 'file-saver';
+
 
 export default {
   name: "ArticlePage",
   components: {
-      VueHtml2pdf
+    ImageManager
   },
   data() {
     return {
+      amoutValue: 0,
+      snackForm: false,
+      snackFormText: '',
       form: {
         save: {
           author: null,
@@ -103,13 +83,77 @@ export default {
           rating: ["Bom", "Ruim", "Péssimo"],
         },
       },
+      formList: [],
     };
   },
-  methods: { 
-        generateReport () {
-            this.$refs.html2Pdf.generatePdf()
-        }
+  computed: {
+    sendAmoumt() {
+      return this.form.save.amount;
+    }
+  },
+  methods: {
+    increment() {
+      this.form.save.amount++;
     },
+    decrement() {
+      if (this.form.save.amount <= 0) {
+        this.form.save.amount = 0;
+      } else {
+        this.form.save.amount--;
+      }
+    },
+    checkFormItem() {
+      const formItem = this.form.save;
+      const author = formItem.author,
+        gender = formItem.gender,
+        rating = formItem.rating;
+      return author && gender && rating;
+    },
+    addFormList() {
+      const defaultForm = {
+        author: null,
+        amount: 0,
+        gender: null,
+        rating: null,
+      }
+      if (this.checkFormItem()) {
+        this.formList.push(this.form.save);
+        this.form.save = defaultForm;
+      } else {
+        this.snackFormText = 'Preencha todos os campos antes de adicionar';
+        this.snackForm = true;
+      }
+    },
+    clearFormList() {
+      this.formList = [];
+    },
+    convertJsonInCSV(jsonObj){
+      const header = Object.keys(jsonObj[0]);
+      const csvHeader = header.join(', ');
+
+      var values = [csvHeader];
+
+      jsonObj.map((item) => {
+        const itemValues = Object.values(item);
+        const valueString = itemValues.join(', ');
+        values.push(valueString);
+      });
+      const csvContent = values.join('\n');
+      console.log(csvContent);
+      return csvContent;
+    },
+    downloadCSV(){
+      if(this.formList.length == 0){
+        this.snackFormText = 'Adicione pelo menos uma rodada de valores a lista antes de salvar um arquivo';
+        this.snackForm = true;
+      }
+      else {
+        const csv = this.convertJsonInCSV(this.formList);
+        var blob = new Blob([csv], {type: "text/plain;charset=utf-8"});
+        saveAs(blob, "Relatorio.csv");
+      }
+    }
+  },
 };
 </script>
 
