@@ -17,6 +17,7 @@ set_cors_config(app=app)
 def get_list_samples():
     """
     Obtém a lista dos arquivos de imagens salvos no banco de dados. Para facilitar a consulta na rota /databaseimage.
+    :return: Rota que mapeia a lista de títulos (PATH) das imagens na pasta de amostras.
     """
     return samples
 
@@ -25,6 +26,7 @@ def get_list_samples():
 def get_list_filters():
     """
     Obtém a lista dos filtros aceitos. Para facilitar a consulta na rota /databaseimage e /uploud.
+    :return: Rota que mapeia a lista o filtros aceitos e que serão atendidos nas requisições.
     """
     return accepted_filters
 
@@ -32,8 +34,11 @@ def get_list_filters():
 @app.get('/databaseimage')
 def get_database_image(filename: str, filtername: str = 'sobel',  base64_output: bool = False):
     """
-    Método get que recebe o nome do arquivo pretendido e o filtro desejado e procura na base de dados pelo arquivo.
-    Retorna uma imagem ou texto na base64 processado conforme o filtro.
+    Método 'get' que recebe o nome do arquivo pretendido e o filtro desejado e procura na base de dados pelo arquivo.
+    :param filename: Título (PATH) da imagem na pasta de amostras.
+    :param filtername: Opção de filtro para ser aplicado na imagem.
+    :param base64_output: Opção para retornar a imagem (formato de Bytes) ou o texto codificado (Base64).
+    :return: Rota que dá acesso a recursos de imagem ou texto na base64 processado conforme o filtro.
     """
     if accepted_image_filters(filtername=filtername):
         try:
@@ -60,8 +65,11 @@ def get_database_image(filename: str, filtername: str = 'sobel',  base64_output:
 @app.post("/upload")
 def upload(file: UploadFile = File(...), filtername: str = 'sobel', base64_output: bool = False):
     """
-    Método post que recebe uma imagem e o filtro desejado.
-    Retorna a imagem ou texto na base64 processado conforme o filtro.
+    Método 'post' que recebe uma imagem e o filtro desejado.
+    :param file: Arquivo Bytes da imagem recebido através de um input File.
+    :param filtername: Opção de filtro para ser aplicado na imagem.
+    :param base64_output: Opção para retornar a imagem (formato de Bytes) ou o texto codificado (Base64).
+    :return: Rota que dá acesso a recursos de imagem ou texto na base64 processado conforme o filtro.
     """
     if accepted_image_filters(filtername=filtername):
         try:

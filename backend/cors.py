@@ -4,7 +4,9 @@ from fastapi import FastAPI
 
 def set_cors_config(app: FastAPI):
     """
-    Permite a Configuração de requisições de origens diferentes principalmente da mesma origem
+    Configura a política de Cors para atender requisições internas.
+    :param app: Objeto FastAPI construtor da API.
+    :return: Adiciona parâmetros de CORSMiddleware a configuração de middleware da API.
     """
     origins = ["*"]
 
