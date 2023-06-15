@@ -1,24 +1,7 @@
-# frontend
+## Frontend
 
-## Project setup
-```
-npm install
-```
+### Instalar dependência para servir o app
+```npm install -g serve```
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
-
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+### Executar o projeto Frontend
+```serve -s dist```
