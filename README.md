@@ -7,9 +7,6 @@ de amostras por parte do técnico para analise de nematoides.
 OBS: Como trabalhar com imagens em memória:
 https://cloudbytes.dev/snippets/received-return-a-file-from-in-memory-buffer-using-fastapi
 
-**The Cauchy-Schwarz Inequality**
-$$\left( \sum_{k=1}^n a_k b_k \right)^2 \leq \left( \sum_{k=1}^n a_k^2 \right) \left( \sum_{k=1}^n b_k^2 \right)$$
-
 ## Instalação
 ### Backend
 
